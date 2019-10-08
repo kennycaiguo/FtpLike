@@ -6,6 +6,7 @@
     ArrayList<File> dirs = (ArrayList<File>)request.getAttribute("dirs");
     ArrayList<File> files = (ArrayList<File>)request.getAttribute("files");
     String parentPath = (String)request.getAttribute("parent");
+    String URI = (String)request.getAttribute("uri");
 %>
 
 <!DOCTYPE html>
@@ -20,7 +21,7 @@
             <%
                 out.println("<div class='back'>");
                 if(parentPath != null){
-                    out.println("<a href='/?path=" + parentPath +"'>");
+                    out.println("<a href='" + URI + "?path=" + parentPath +"'>");
                     out.println("<span>" + parentPath + "</span>");
                     out.println("</a>");
                 }
@@ -29,20 +30,20 @@
                 }
                 out.println("</div><hr/>");
             %>
-        <div class='files'>
-            <div class='dir'>
+        <div class='allfiles'>
+            <div class='dirs'>
                 <%
                     for(File dir : dirs){
-                        out.println("<a href='/?path=" + dir.getAbsolutePath() + "/'>");
+                        out.println("<div class='dir'><a href='" + URI + "?path=" + dir.getAbsolutePath() + "'>");
                         out.println("<p class='dirname'>" + dir.getName() + "</p>");
-                        out.println("</a>");
+                        out.println("</a></div>");
                     }
                 %>
             </div>
-            <div class='file'>
+            <div class='files'>
                 <%
                     for(File file : files){
-                        out.println("<p>" + file.getName() + "</p>");
+                        out.println("<div class='file'><p>" + file.getName() + "</p></div>");
                     }
                 %>
             </div>

@@ -10,7 +10,7 @@
     <body>
         <h2 class='Title'> ERROR </h2>
         <p class='errortext'> Incorrect path. Please use parameter "path" in your address bar.
-            Like this: "url:port/?path={correct(!) path}"
+            Like this: "url:port?path={correct(!) path}"
         </p>
     </body>
 </html>

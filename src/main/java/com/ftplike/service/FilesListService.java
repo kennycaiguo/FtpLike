@@ -1,47 +1,29 @@
 package com.ftplike.service;
 
-import java.io.File;
+import com.ftplike.model.FilesList;
+
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class FilesListService {
-    private ArrayList<File> Directories = new ArrayList<>();
-    private ArrayList<File> Files = new ArrayList<>();
-    private String ParentPath;
+    public FilesList readPath(String path) throws NullPointerException {
+        ArrayList Directories = new ArrayList<File>();
+        ArrayList Files = new ArrayList<File>();
 
-    public ArrayList<File> getDirectories() {
-        return this.Directories;
-    }
+        File f = new File(path);
+        File[] files = new File(path).listFiles();
 
-    public ArrayList<File> getFiles(){
-        return this.Files;
-    }
+        Arrays.sort(files);
 
-    public String getParent(){
-        return this.ParentPath;
-    }
-
-    public boolean setLists(String path){
-        try {
-            File f = new File(path);
-            File[] files = new File(path).listFiles();
-
-            ParentPath = f.getParent();
-
-            Arrays.sort(files);
-
-            for (File file: files){
-                if (file.isDirectory()) {
-                    Directories.add(file);
-                } else {
-                    Files.add(file);
-                }
+        for (File file : files) {
+            if (file.isDirectory()) {
+                Directories.add(file);
+            } else {
+                Files.add(file);
             }
+        }
 
-            return true;
-        }
-        catch (NullPointerException np){
-            return false;
-        }
+        return new FilesList(f.getParent(), Directories, Files);
     }
 }
