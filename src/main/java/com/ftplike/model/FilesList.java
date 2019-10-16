@@ -6,10 +6,10 @@ import java.util.ArrayList;
 public class FilesList {
     private ArrayList<File> Directories;
     private ArrayList<File> Files;
-    private String ParentPath;
+    private File Parent;
 
-    public FilesList(String parentPath, ArrayList dirs, ArrayList files){
-        this.ParentPath = parentPath;
+    public FilesList(File parentPath, ArrayList dirs, ArrayList files){
+        this.Parent = parentPath;
         this.Directories = dirs;
         this.Files = files;
     }
@@ -22,7 +22,7 @@ public class FilesList {
         return this.Files;
     }
 
-    public String getParent() {
-        return this.ParentPath;
+    public File getParent() {
+        return this.Parent;
     }
 }

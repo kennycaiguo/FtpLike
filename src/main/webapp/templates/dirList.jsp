@@ -6,6 +6,7 @@
     ArrayList<File> dirs = (ArrayList<File>)request.getAttribute("dirs");
     ArrayList<File> files = (ArrayList<File>)request.getAttribute("files");
     String parentPath = (String)request.getAttribute("parent");
+    String home = (String)request.getAttribute("homedir");
     String URI = (String)request.getAttribute("uri");
 %>
 
@@ -14,22 +15,30 @@
     <head>
         <meta charset='UTF-8' />
         <link rel="icon" href="https://icon-library.net/images/icon-folders/icon-folders-8.jpg">
-        <!--TODO CSS, MAYBE...-->
+        <link rel="stylesheet" type="text/css" href="">
         <title>File Tree View</title>
     </head>
     <body>
+        <header style="display: block;">
             <%
-                out.println("<div class='back'>");
-                if(parentPath != null){
+                out.println("<div class='back' style='display: inline-block;'>");
+                if(!parentPath.equals(home)){
                     out.println("<a href='" + URI + "?path=" + parentPath +"'>");
                     out.println("<span>" + parentPath + "</span>");
                     out.println("</a>");
                 }
                 else {
-                    out.println("<span> You are in root dir </span>");
+                    out.println("<span> You are in your home dir </span>");
                 }
-                out.println("</div><hr/>");
+                out.println("</div>");
             %>
+
+            <form class="exit" method="post" action="/" name="exit" style='display: inline-block; float: right; padding-right: 20px; padding-bottom: 5px;'>
+                <button class="exit-btn btn">Exit</button>
+            </form>
+        </header>
+        <hr/>
+
         <div class='allfiles'>
             <div class='dirs'>
                 <%

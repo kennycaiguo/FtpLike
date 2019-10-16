@@ -24,6 +24,6 @@ public class FilesListService {
             }
         }
 
-        return new FilesList(f.getParent(), Directories, Files);
+        return new FilesList(f.getParentFile(), Directories, Files);
     }
 }
