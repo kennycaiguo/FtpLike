@@ -1,0 +1,12 @@
+header{
+	padding-bottom: 5px;
+}
+
+.back{
+	display: inline-block;
+}
+form{
+	display: inline-block;
+	float: right;
+	padding-right: 15px;
+}

@@ -16,7 +16,7 @@ public class FtpLikeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             HttpSession ses = request.getSession();
-            User us = (User)ses.getAttribute(userCookieName);
+            User us = (User) ses.getAttribute(userCookieName);
 
             String path = request.getParameter("path");
 
@@ -28,14 +28,14 @@ public class FtpLikeServlet extends HttpServlet {
             FilesList list = new FilesListService().readPath(path);
 
             System.out.println(path);
-            System.out.println(us.getHomedir().getPath());
+            System.out.println(us.getHomedir().getAbsoluteFile());
 
-
-            if (path.contains(us.getHomedir().getPath())) {
+            if (path.contains(us.getHomedir().getAbsolutePath()) && list != null) {
                 request.setAttribute("dirs", list.getDirectories());
                 request.setAttribute("files", list.getFiles());
                 request.setAttribute("parent", list.getParent().getAbsolutePath());
                 request.setAttribute("homedir", us.getHomedir().getParentFile().getAbsolutePath());
+                request.setAttribute("usname", us.getLogin());
                 request.setAttribute("uri", request.getRequestURI());
 
                 getServletContext().getRequestDispatcher("/templates/dirList.jsp").forward(request, response);

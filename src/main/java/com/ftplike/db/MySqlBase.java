@@ -2,7 +2,6 @@ package com.ftplike.db;
 
 import com.ftplike.model.User;
 
-import javax.swing.*;
 import java.io.*;
 import java.sql.*;
 
@@ -12,27 +11,27 @@ public class MySqlBase implements DBase {
     private String url = "jdbc:mysql://localhost/";
     private String basename = "usersftp";
 
-//    public MySqlBase(){
-//        try(Connection conn = DriverManager.getConnection(url + basename, ubasae, pbase);
-//            Statement st = conn.createStatement()){
-//            String sql = "CREATE TABLE userlist (" +
-//                    "login TEXT NOT NULL, " +
-//                    "email TEXT NOT NULL, " +
-//                    "password TEXT NOT NULL, " +
-//                    "homedir BLOB NOT NULL);";
-//
-//            st.execute(sql);
-//        }
-//        catch (Exception ex){
-//            System.out.println(ex.getMessage());
-//        }
-//    }
+    public MySqlBase(){
+        try(Connection conn = DriverManager.getConnection(url + basename, ubasae, pbase);
+            Statement st = conn.createStatement()){
+            String sql = "CREATE TABLE IF NOT EXISTS userlist (" +
+                    "login TEXT NOT NULL, " +
+                    "email TEXT NOT NULL, " +
+                    "password TEXT NOT NULL, " +
+                    "homedir BLOB NOT NULL);";
+
+            st.execute(sql);
+        }
+        catch (Exception ex){
+            System.out.println(ex.getMessage());
+        }
+    }
 
     @Override
     public Boolean containsLogin(String login) {
         String sql = "SELECT COUNT(login) FROM userlist WHERE login = '" + login + "';";
 
-        try(Connection conn = DriverManager.getConnection(url + basename, "root", "rootroot");
+        try(Connection conn = DriverManager.getConnection(url + basename, ubasae, pbase);
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(sql)){
             rs.next();
@@ -50,7 +49,7 @@ public class MySqlBase implements DBase {
     public Boolean containsMail(String email) {
         String sql = "SELECT COUNT(email) FROM userlist WHERE email = '" + email + "';";
 
-        try(Connection conn = DriverManager.getConnection(url + basename, "root", "rootroot");
+        try(Connection conn = DriverManager.getConnection(url + basename, ubasae, pbase);
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(sql)){
             rs.next();

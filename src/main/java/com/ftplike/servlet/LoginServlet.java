@@ -17,17 +17,13 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("errLog", false);
-        request.setAttribute("errMail", false);
-        request.setAttribute("errPass", false);
-        request.setAttribute("isLogin", true);
-
         HttpSession ses = request.getSession();
-        User user = (User)ses.getAttribute(userCookieName);
 
-        if(user == null) {
+        User user = (User) ses.getAttribute(userCookieName);
+
+        if (user == null) {
             getServletContext().getRequestDispatcher("/templates/login.jsp").forward(request, response);
-        }else{
+        } else {
             response.sendRedirect(request.getContextPath() + "/");
         }
     }
@@ -37,17 +33,19 @@ public class LoginServlet extends HttpServlet {
         String login = request.getParameter("login");
         String pass = request.getParameter("password");
 
-        try{
+        try {
+            request.getSession().setAttribute("isLgnForm", true);
+
             LoginService loginService = new LoginService();
             User user = loginService.Login(login, pass);
 
             request.getSession().setAttribute(userCookieName, user);
             response.sendRedirect(request.getContextPath() + "/");
         } catch (IncorrectLoginException e) {
-            request.setAttribute("errLog", true);
+            request.getSession().setAttribute("errLog", true);
             response.sendRedirect(request.getContextPath() + "/login");
         } catch (IncorrectPasswordException e) {
-            request.setAttribute("errPass", true);
+            request.getSession().setAttribute("errPass", true);
             response.sendRedirect(request.getContextPath() + "/login");
         }
     }

@@ -3,14 +3,14 @@
 <html>
     <head>
         <meta charset='UTF-8' />
-        <link rel="icon" href="https://icon-library.net/images/icon-folders/icon-folders-8.jpg">
-        <!-- TODO CSS -->
-        <title>Error in path</title>
+        <link rel="icon" href="res/icons/icon.jpg">
+        <link rel="stylesheet" type="text/css" href="src/css/errStyles.css" />
+        <title>FTP-Like</title>
     </head>
     <body>
-        <h2 class='Title'> ERROR </h2>
-        <p class='errortext'> Incorrect path. Please use parameter "path" in your address bar.
-            Like this: "url:port?path={correct(!) path}"
-        </p>
+        <h1 class='Title'> ERROR </h1>
+        <h3 class='errortext'> Incorrect path!!!</h3>
+        <p>it someone else dir</p>
+        <a class="btn homedir-btn" href="/">To HomeDir</a>
     </body>
 </html>

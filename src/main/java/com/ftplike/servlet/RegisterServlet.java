@@ -22,16 +22,18 @@ public class RegisterServlet extends HttpServlet {
         String pass = request.getParameter("password");
 
         try {
+            request.getSession().setAttribute("isLgnForm", false);
+
             RegisterService registerService = new RegisterService();
             User user = registerService.Register(login, email, pass);
 
             request.getSession().setAttribute(userCookieName, user);
             response.sendRedirect(request.getContextPath() + "/");
         } catch (IncorrectLoginException e) {
-            request.setAttribute("errLog", true);
+            request.getSession().setAttribute("errLog", true);
             response.sendRedirect(request.getContextPath() + "/login");
         } catch (IncorrectEmailException e) {
-            request.setAttribute("errMail", true);
+            request.getSession().setAttribute("errMail", true);
             response.sendRedirect(request.getContextPath() + "/login");
         }
     }

@@ -1,70 +1,78 @@
 <%@ page import="javax.servlet.http.Cookie"%>
+<%@ page session="true"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
-    Boolean isLogin = (Boolean)request.getAttribute("isLogin");
-    Boolean errLog  = (Boolean)request.getAttribute("errLog");
-    Boolean errMail = (Boolean)request.getAttribute("errMail");
-    Boolean errPass = (Boolean)request.getAttribute("errPass");
+    Boolean errLog  = (Boolean)request.getSession().getAttribute("errLog");
+    Boolean errMail = (Boolean)request.getSession().getAttribute("errMail");
+    Boolean errPass = (Boolean)request.getSession().getAttribute("errPass");
+    Boolean isLgnForm = (Boolean)request.getSession().getAttribute("isLgnForm");
+
+    if(errLog == null){
+        errLog = false;
+    }
+    if(errMail == null){
+        errMail = false;
+    }
+    if(errPass == null){
+        errPass = false;
+    }
+    if(isLgnForm == null){
+        isLgnForm = true;
+    }
+
 %>
 
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset='UTF-8' />
-	    <link rel="icon" href="/res/icons/icon.jpg" />
-	    <title>File Tree View</title>
-	    <link rel="stylesheet" href="" />
+	    <link rel="icon" href="res/icons/icon.jpg" />
+	    <link rel="stylesheet" href="src/css/logStyle.css" />
+	    <title>FTP-Like</title>
 	</head>
 	<body>
-		<form class="login" action="/login" method="post" name="login" style='<%= (isLogin ? "" : "display: none;") %>'>
-			<p> Login </p>
-			<input type="text" name="login" placeholder="login or email" />
-			<input type="password" name="password" placeholder="password"/>
-			<input class="btn" type="submit" />
-		</form>
+		<div class="wrapper">
+			<form class="logform" action="/login" method="post" name="login" style='<%= (isLgnForm ? "" : "display: none;") %>'>
+				<p> Login </p>
+				<div class="inputs">
+					<input class="login" type="text" name="login" placeholder="login or email" required />
+					<input class="password" type="password" name="password" placeholder="password" required />
+				</div>
+				<input class="btn" type="submit" value="Login"/>
+			</form>
 
-	    <form class="register" action="/register" method="post" name="register" style='<%= (isLogin ? "display: none" : "") %>'>
-	        <p>Register</p>
-	        <input type="text" name="login" placeholder="login" />
-	        <input type="text" name="email" placeholder="email" />
-	        <input type="password" name="password" placeholder="password" />
-	        <input class="btn" type="submit" />
-	    </form>
-	    <%
-	    	if(errLog){
-	    		out.println("<h6 style='color:red'>login error</h6>");
-	    	}
-	    	if(errMail){
-	    		out.println("<h6 style='color:red'>email error</h6>");
-	    	}
-	    	if(errPass){
-	    		out.println("<h6 style='color:red'>password error</h6>");
-	    	}
-	    %>
-	    <div class="authForm">
-	    	<span>Login</span>
-		    <input class="inp-login" type="radio" name="authchose" value="lgn" checked onchange="changeForm(this.value)" />
-		    <input class="inp-register" name="authchose" type="radio" value="rgs" onchange="changeForm(this.value)" />
-		    <span>Register</span>
+		    <form class="regform" action="/register" method="post" name="register" style='<%= (isLgnForm ? "display: none;" : "") %>'>
+		        <p>Register</p>
+		        <div class="inputs">
+			        <input class="login" type="text" name="login" placeholder="login" required />
+			        <input class="mail" type="text" name="email" placeholder="email" required pattern="^\S+@\S+\.\S+$" />
+			        <input class="password" type="password" name="password" placeholder="password" required />
+		    	</div>	
+		        <input class="btn" type="submit" value="Register"/>
+		    </form>
+		    
+		    <div class="authForm">
+		    	<span>Login</span>
+		    	<div class='inp-login <%= (isLgnForm ? " checked" : "") %>' onclick='showLog(this)'></div>
+		    	<div class='inp-register <%= (isLgnForm ? "" : "checked") %>' onclick="showReg(this)"></div>
+			    <span>Register</span>
+			</div>
+            <%
+                if(errLog){
+                    out.println("<span class='error'>login error</span>");
+                    request.getSession().setAttribute("errLog", false);
+                }
+                if(errMail){
+                    out.println("<span class='error'>email error</span>");
+                    request.getSession().setAttribute("errMail", false);
+                }
+                if(errPass){
+                    out.println("<span class='error'>password error</span>");
+                    request.getSession().setAttribute("errMail",false);
+                }
+            %>
 		</div>
 	</body>
-
-	<script type="text/javascript">
-		function changeForm(value) {
-			let lgn = document.querySelector(".inp-login");
-			let rgn = document.querySelector(".inp-register");
-			let rgnform = document.querySelector(".register");
-			let lgnform = document.querySelector(".login");
-
- 			if(value == 'lgn'){
- 				rgnform.style.display = "none";
-				lgnform.style.display = "";
-			}else{
-				rgnform.style.display = "";
-				lgnform.style.display = "none";
-			}
-
-		}
-	</script>
+	<script type="text/javascript" src="src/js/swforms.js"></script>
 </html>

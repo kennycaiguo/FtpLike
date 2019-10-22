@@ -8,20 +8,21 @@
     String parentPath = (String)request.getAttribute("parent");
     String home = (String)request.getAttribute("homedir");
     String URI = (String)request.getAttribute("uri");
+    String usname = (String)request.getAttribute("usname");
 %>
 
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset='UTF-8' />
-        <link rel="icon" href="https://icon-library.net/images/icon-folders/icon-folders-8.jpg">
-        <link rel="stylesheet" type="text/css" href="">
-        <title>File Tree View</title>
+        <link rel="icon" href="res/icons/icon.jpg" />
+        <link rel="stylesheet" type="text/css" href="src/css/dirStyle.css" />
+        <% out.println("<title>" + usname + " | FTP-Like</title>");%>
     </head>
     <body>
-        <header style="display: block;">
+        <header>
             <%
-                out.println("<div class='back' style='display: inline-block;'>");
+                out.println("<div class='back'>");
                 if(!parentPath.equals(home)){
                     out.println("<a href='" + URI + "?path=" + parentPath +"'>");
                     out.println("<span>" + parentPath + "</span>");
@@ -33,7 +34,7 @@
                 out.println("</div>");
             %>
 
-            <form class="exit" method="post" action="/" name="exit" style='display: inline-block; float: right; padding-right: 20px; padding-bottom: 5px;'>
+            <form class="exit" method="post" action="/" name="exit">
                 <button class="exit-btn btn">Exit</button>
             </form>
         </header>
