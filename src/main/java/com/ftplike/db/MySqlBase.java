@@ -2,64 +2,73 @@ package com.ftplike.db;
 
 import com.ftplike.model.User;
 
+import javax.swing.*;
 import java.io.*;
 import java.sql.*;
 
-public class SQLBase implements DBase {
-    private static String url = "jdbc:sqlite:usersbase.db";
+public class MySqlBase implements DBase {
+    private String ubasae = "root";
+    private String pbase = "rootroot";
+    private String url = "jdbc:mysql://localhost/";
+    private String basename = "usersftp";
 
-    public SQLBase() {
-        try (Connection conn = DriverManager.getConnection(url);
-             Statement statement = conn.createStatement()) {
-
-            statement.execute("CREATE TABLE IF NOT EXISTS users (" +
-                    "login text NOT NULL," +
-                    "email text NOT NULL," +
-                    "password text NOT NULL," +
-                    "homedir blob NOT NULL);");
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
+//    public MySqlBase(){
+//        try(Connection conn = DriverManager.getConnection(url + basename, ubasae, pbase);
+//            Statement st = conn.createStatement()){
+//            String sql = "CREATE TABLE userlist (" +
+//                    "login TEXT NOT NULL, " +
+//                    "email TEXT NOT NULL, " +
+//                    "password TEXT NOT NULL, " +
+//                    "homedir BLOB NOT NULL);";
+//
+//            st.execute(sql);
+//        }
+//        catch (Exception ex){
+//            System.out.println(ex.getMessage());
+//        }
+//    }
 
     @Override
     public Boolean containsLogin(String login) {
-        String sql = "SELECT COUNT(*) FROM users WHERE login = '" + login + "';";
+        String sql = "SELECT COUNT(login) FROM userlist WHERE login = '" + login + "';";
 
-        try (Connection conn = DriverManager.getConnection(url);
-             Statement st = conn.createStatement();
-             ResultSet rs = st.executeQuery(sql)) {
-
+        try(Connection conn = DriverManager.getConnection(url + basename, "root", "rootroot");
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(sql)){
+            rs.next();
             int i = rs.getInt(1);
             return i != 0;
-        } catch (Exception ex) {
+        }
+        catch (Exception ex){
             System.out.println(ex.getMessage());
         }
+
         return null;
     }
 
     @Override
     public Boolean containsMail(String email) {
-        String sql = "SELECT COUNT(*) FROM users WHERE email = '" + email + "';";
+        String sql = "SELECT COUNT(email) FROM userlist WHERE email = '" + email + "';";
 
-        try(Connection conn = DriverManager.getConnection(url);
+        try(Connection conn = DriverManager.getConnection(url + basename, "root", "rootroot");
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(sql)){
-
+            rs.next();
             int i = rs.getInt(1);
             return i != 0;
-        }catch (Exception ex){
+        }
+        catch (Exception ex){
             System.out.println(ex.getMessage());
         }
+
         return null;
     }
 
     @Override
     public void insertUser(String login, String email, String password, File homedir) {
-        String sql = "INSERT INTO users VALUES(?, ?, ?, ?);";
+        String sql = "INSERT INTO userlist VALUES(?, ?, ?, ?);";
 
-        try(Connection conn = DriverManager.getConnection(url);
+        try(Connection conn = DriverManager.getConnection(url + basename, ubasae, pbase);
             PreparedStatement pStatement = conn.prepareStatement(sql);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ObjectOutputStream oos = new ObjectOutputStream(baos)){
@@ -80,11 +89,12 @@ public class SQLBase implements DBase {
 
     @Override
     public User getUser(String login) {
-        String sql = "SELECT * FROM users WHERE login = '" + login + "' OR email = '" + login + "';";
+        String sql = "SELECT * FROM userlist WHERE login = '" + login + "' OR email = '" + login + "';";
 
-        try(Connection conn = DriverManager.getConnection(url);
+        try(Connection conn = DriverManager.getConnection(url + basename, ubasae, pbase);
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(sql)){
+            rs.next();
 
             String username = rs.getString(1);
             String email = rs.getString(2);
