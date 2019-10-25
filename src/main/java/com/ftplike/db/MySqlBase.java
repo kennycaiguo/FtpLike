@@ -1,45 +1,53 @@
 package com.ftplike.db;
 
 import com.ftplike.model.User;
+import com.ftplike.service.LoggerService;
 
-import java.io.*;
 import java.sql.*;
 
 public class MySqlBase implements DBase {
-    private String ubasae = "root";
-    private String pbase = "rootroot";
-    private String url = "jdbc:mysql://localhost/";
-    private String basename = "usersftp";
+    private String url;
+    private String userbase;
+    private String passbase;
+    private String basename;
+    private String tablename;
 
-    public MySqlBase(){
-        try(Connection conn = DriverManager.getConnection(url + basename, ubasae, pbase);
-            Statement st = conn.createStatement()){
-            String sql = "CREATE TABLE IF NOT EXISTS userlist (" +
-                    "login TEXT NOT NULL, " +
-                    "email TEXT NOT NULL, " +
-                    "password TEXT NOT NULL, " +
-                    "homedir BLOB NOT NULL);";
+    public MySqlBase(String user, String pass, String basename, String url, String tablename) {
+        this.userbase = user;
+        this.passbase = pass;
+        this.basename = basename;
+        this.tablename = tablename;
+        this.url = url;
 
+        String sql = "CREATE TABLE IF NOT EXISTS " + tablename + " (" +
+                "login VARCHAR(15) NOT NULL, " +
+                "email VARCHAR(50) NOT NULL, " +
+                "password VARCHAR(50) NOT NULL, " +
+                "homedir TEXT NOT NULL);";
+
+        try (Connection conn = DriverManager.getConnection(url + basename, userbase, passbase);
+             Statement st = conn.createStatement()) {
             st.execute(sql);
-        }
-        catch (Exception ex){
-            System.out.println(ex.getMessage());
+        } catch (Exception ex) {
+            LoggerService.log(LoggerService.LogLevels.ERROR, ex.getMessage());
         }
     }
 
     @Override
     public Boolean containsLogin(String login) {
-        String sql = "SELECT COUNT(login) FROM userlist WHERE login = '" + login + "';";
+        String sql = "SELECT COUNT(login) FROM " + tablename + " WHERE login = ? ;";
 
-        try(Connection conn = DriverManager.getConnection(url + basename, ubasae, pbase);
-            Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery(sql)){
-            rs.next();
-            int i = rs.getInt(1);
-            return i != 0;
-        }
-        catch (Exception ex){
-            System.out.println(ex.getMessage());
+        try (Connection conn = DriverManager.getConnection(url + basename, userbase, passbase);
+             PreparedStatement st = conn.prepareStatement(sql)) {
+            st.setString(1, login);
+
+            try (ResultSet rs = st.executeQuery()) {
+                rs.next();
+                int i = rs.getInt(1);
+                return i != 0;
+            }
+        } catch (Exception ex) {
+            LoggerService.log(LoggerService.LogLevels.ERROR, ex.getMessage());
         }
 
         return null;
@@ -47,69 +55,63 @@ public class MySqlBase implements DBase {
 
     @Override
     public Boolean containsMail(String email) {
-        String sql = "SELECT COUNT(email) FROM userlist WHERE email = '" + email + "';";
+        String sql = "SELECT COUNT(email) FROM " + tablename + " WHERE email = ? ;";
 
-        try(Connection conn = DriverManager.getConnection(url + basename, ubasae, pbase);
-            Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery(sql)){
-            rs.next();
-            int i = rs.getInt(1);
-            return i != 0;
-        }
-        catch (Exception ex){
-            System.out.println(ex.getMessage());
+        try (Connection conn = DriverManager.getConnection(url + basename, userbase, passbase);
+             PreparedStatement st = conn.prepareStatement(sql)) {
+            st.setString(1, email);
+
+            try (ResultSet rs = st.executeQuery()) {
+                rs.next();
+                int i = rs.getInt(1);
+                return i != 0;
+            }
+        } catch (Exception ex) {
+            LoggerService.log(LoggerService.LogLevels.ERROR, ex.getMessage());
         }
 
         return null;
     }
 
     @Override
-    public void insertUser(String login, String email, String password, File homedir) {
-        String sql = "INSERT INTO userlist VALUES(?, ?, ?, ?);";
+    public void insertUser(String login, String email, String password, String homedir) {
+        String sql = "INSERT INTO " + tablename + " VALUES(?, ?, ?, ?);";
 
-        try(Connection conn = DriverManager.getConnection(url + basename, ubasae, pbase);
-            PreparedStatement pStatement = conn.prepareStatement(sql);
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ObjectOutputStream oos = new ObjectOutputStream(baos)){
-
-            oos.writeObject(homedir);
-
+        try (Connection conn = DriverManager.getConnection(url + basename, userbase, passbase);
+             PreparedStatement pStatement = conn.prepareStatement(sql);
+        ){
             pStatement.setString(1, login);
             pStatement.setString(2, email);
             pStatement.setString(3, password);
-            pStatement.setBytes(4, baos.toByteArray());
+            pStatement.setString(4, homedir);
 
             pStatement.executeUpdate();
-        }
-        catch (Exception ex){
-            System.out.println(ex.getMessage());
+        } catch (Exception ex) {
+            LoggerService.log(LoggerService.LogLevels.ERROR, ex.getMessage());
         }
     }
 
     @Override
     public User getUser(String login) {
-        String sql = "SELECT * FROM userlist WHERE login = '" + login + "' OR email = '" + login + "';";
+        String sql = "SELECT * FROM " + tablename + " WHERE login = ? OR email = ? ;";
 
-        try(Connection conn = DriverManager.getConnection(url + basename, ubasae, pbase);
-            Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery(sql)){
-            rs.next();
+        try (Connection conn = DriverManager.getConnection(url + basename, userbase, passbase);
+             PreparedStatement st = conn.prepareStatement(sql)) {
+            st.setString(1, login);
+            st.setString(2, login);
 
-            String username = rs.getString(1);
-            String email = rs.getString(2);
-            String password = rs.getString(3);
+            try (ResultSet rs = st.executeQuery()) {
+                rs.next();
 
-            ByteArrayInputStream bais = new ByteArrayInputStream(rs.getBytes(4));
-            ObjectInputStream ois = new ObjectInputStream(bais);
+                String username = rs.getString(1);
+                String email = rs.getString(2);
+                String password = rs.getString(3);
+                String homedir = rs.getString(4);
 
-            File homedir = (File)ois.readObject();
-
-            bais.close();
-            ois.close();
-
-            return new User(username, email, password, homedir);
-        }catch (Exception ex){
-            System.out.println(ex.getMessage());
+                return new User(username, email, password, homedir);
+            }
+        } catch (Exception ex) {
+            LoggerService.log(LoggerService.LogLevels.ERROR, ex.getMessage());
         }
         return null;
     }

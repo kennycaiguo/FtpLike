@@ -6,9 +6,9 @@ public class User {
     private String login;
     private String email;
     private String password;
-    private File homedir;
+    private String homedir;
 
-    public User(String login, String email, String password, File homedir){
+    public User(String login, String email, String password, String homedir){
         this.login = login;
         this.email = email;
         this.password = password;
@@ -27,7 +27,7 @@ public class User {
         return password;
     }
 
-    public File getHomedir() {
+    public String getHomedir() {
         return homedir;
     }
 }

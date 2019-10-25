@@ -24,7 +24,7 @@
             <%
                 out.println("<div class='back'>");
                 if(!parentPath.equals(home)){
-                    out.println("<a href='" + URI + "?path=" + parentPath +"'>");
+                    out.println("<a href='" + URI + "?path=" + parentPath +"/'>");
                     out.println("<span>" + parentPath + "</span>");
                     out.println("</a>");
                 }
@@ -44,7 +44,7 @@
             <div class='dirs'>
                 <%
                     for(File dir : dirs){
-                        out.println("<div class='dir'><a href='" + URI + "?path=" + dir.getAbsolutePath() + "'>");
+                        out.println("<div class='dir'><a href='" + URI + "?path=" + dir.getAbsolutePath() + "/'>");
                         out.println("<p class='dirname'>" + dir.getName() + "</p>");
                         out.println("</a></div>");
                     }

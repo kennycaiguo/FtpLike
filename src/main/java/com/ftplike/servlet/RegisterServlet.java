@@ -1,7 +1,6 @@
 package com.ftplike.servlet;
 
-import com.ftplike.error.IncorrectEmailException;
-import com.ftplike.error.IncorrectLoginException;
+import com.ftplike.error.IncorrectFormInputException;
 import com.ftplike.model.User;
 import com.ftplike.service.RegisterService;
 
@@ -29,11 +28,8 @@ public class RegisterServlet extends HttpServlet {
 
             request.getSession().setAttribute(userCookieName, user);
             response.sendRedirect(request.getContextPath() + "/");
-        } catch (IncorrectLoginException e) {
-            request.getSession().setAttribute("errLog", true);
-            response.sendRedirect(request.getContextPath() + "/login");
-        } catch (IncorrectEmailException e) {
-            request.getSession().setAttribute("errMail", true);
+        } catch (IncorrectFormInputException e) {
+            request.getSession().setAttribute("err", true);
             response.sendRedirect(request.getContextPath() + "/login");
         }
     }

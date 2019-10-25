@@ -1,4 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    String URI = (String)request.getAttribute("URI");
+%>
 <!DOCTYPE html>
 <html>
     <head>

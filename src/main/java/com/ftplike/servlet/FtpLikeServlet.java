@@ -3,6 +3,7 @@ package com.ftplike.servlet;
 import com.ftplike.model.FilesList;
 import com.ftplike.model.User;
 import com.ftplike.service.FilesListService;
+import com.ftplike.service.LoggerService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
@@ -21,20 +22,20 @@ public class FtpLikeServlet extends HttpServlet {
             String path = request.getParameter("path");
 
             if (path == null) {
-                path = us.getHomedir().getAbsolutePath();
+                path = new File(us.getHomedir()).getAbsolutePath() + "/";
             }
 
             path = new String(path.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
             FilesList list = new FilesListService().readPath(path);
 
-            System.out.println(path);
-            System.out.println(us.getHomedir().getAbsoluteFile());
+            LoggerService.log(LoggerService.LogLevels.INFO, us.getLogin() + " - " + path);
+            path += "/";
 
-            if (path.contains(us.getHomedir().getAbsolutePath()) && list != null) {
+            if (path.contains(new File(us.getHomedir()).getAbsolutePath() + "/") && list != null) {
                 request.setAttribute("dirs", list.getDirectories());
                 request.setAttribute("files", list.getFiles());
                 request.setAttribute("parent", list.getParent().getAbsolutePath());
-                request.setAttribute("homedir", us.getHomedir().getParentFile().getAbsolutePath());
+                request.setAttribute("homedir", new File(us.getHomedir()).getParentFile().getAbsolutePath());
                 request.setAttribute("usname", us.getLogin());
                 request.setAttribute("uri", request.getRequestURI());
 
