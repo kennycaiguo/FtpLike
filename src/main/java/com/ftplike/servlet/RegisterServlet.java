@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class RegisterServlet extends HttpServlet {
-    private String userCookieName = "loginedUser";
+    private String userCookieName = "users";
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -23,8 +23,7 @@ public class RegisterServlet extends HttpServlet {
         try {
             request.getSession().setAttribute("isLgnForm", false);
 
-            RegisterService registerService = new RegisterService();
-            User user = registerService.Register(login, email, pass);
+            User user = RegisterService.getInstance().register(login, email, pass);
 
             request.getSession().setAttribute(userCookieName, user);
             response.sendRedirect(request.getContextPath() + "/");

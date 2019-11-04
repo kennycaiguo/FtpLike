@@ -10,6 +10,7 @@ function showReg(value) {
 		value.classList.add("checked");
 	}
 }
+
 function showLog(value){
 	let rgn = document.querySelector(".inp-register");
 	let rgnform = document.querySelector(".regform");

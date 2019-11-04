@@ -6,6 +6,6 @@ import java.io.File;
 public interface DBase {
     public Boolean containsLogin(String login);
     public Boolean containsMail(String email);
-    public void insertUser(String login, String email, String password, String homedir);
+    public void insertUser(String login, String email, String password);
     public User getUser(String login);
 }

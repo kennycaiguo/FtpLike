@@ -1,18 +1,21 @@
 package com.ftplike.model;
 
-import java.io.File;
-
 public class User {
     private String login;
     private String email;
-    private String password;
-    private String homedir;
+    private String pass;
+    private int id;
 
-    public User(String login, String email, String password, String homedir){
+    public User(){}
+
+    public User(String login, String email, String pass){
         this.login = login;
         this.email = email;
-        this.password = password;
-        this.homedir = homedir;
+        this.pass = pass;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getLogin() {
@@ -23,11 +26,23 @@ public class User {
         return email;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPass() {
+        return pass;
     }
 
-    public String getHomedir() {
-        return homedir;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public void setPass(String pass) {
+        this.pass = pass;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

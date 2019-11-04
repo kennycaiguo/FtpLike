@@ -4,12 +4,7 @@
 
 <%
     String URI = (String)request.getAttribute("URI");
-    Boolean err  = (Boolean)request.getSession().getAttribute("err");
     Boolean isLgnForm = (Boolean)request.getSession().getAttribute("isLgnForm");
-
-    if(err == null){
-        err = false;
-    }
     if(isLgnForm == null){
         isLgnForm = true;
     }
@@ -25,7 +20,7 @@
 	</head>
 	<body>
 		<div class="wrapper">
-			<form class="logform" action="/login" method="post" name="login" style='<%= (isLgnForm ? "" : "display: none;") %>'>
+			<form class="logform" action='<%=request.getContextPath() + "/login" %>' method="post" name="login" style='<%= (isLgnForm ? "" : "display: none;") %>'>
 				<p> Login </p>
 				<div class="inputs">
 					<input class="login" type="text" name="login" placeholder="login or email" maxlength="15" required />
@@ -34,7 +29,7 @@
 				<input class="btn" type="submit" value="Login"/>
 			</form>
 
-		    <form class="regform" action="/register" method="post" name="register" style='<%= (isLgnForm ? "display: none;" : "") %>'>
+		    <form class="regform" action='<%=request.getContextPath() + "/register" %>' method="post" name="register" style='<%= (isLgnForm ? "display: none;" : "") %>'>
 		        <p>Register</p>
 		        <div class="inputs">
 			        <input class="login" type="text" name="login" placeholder="login" maxlength="15" required />
@@ -50,13 +45,8 @@
 		    	<div class='inp-register <%= (isLgnForm ? "" : "checked") %>' onclick="showReg(this)"></div>
 			    <span>Register</span>
 			</div>
-            <%
-                if(err){
-                    out.println("<span class='error'>login error</span>");
-                    request.getSession().setAttribute("errLog", false);
-                }
-            %>
 		</div>
 	</body>
 	<script type="text/javascript" src="src/js/swforms.js"></script>
+	<script type="text/javascript" src="src/js/ajaxerr.js"></script>
 </html>

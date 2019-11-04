@@ -1,1 +1,29 @@
-[INFO] 25.10.2019 19:24.58 | test1 - /home/dima/FtpLike/rootdir/test1/
+[INFO] 26.10.2019 13:48.23 | test1 - /home/dima/FtpLike/rootdir/test1/
+[ERROR] 26.10.2019 13:56.08 | Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+[ERROR] 26.10.2019 13:56.08 | Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+[ERROR] 26.10.2019 13:59.05 | Could not connect to address=(host=example.com)(port=3306)(type=master) : Socket fail to connect to host:example.com, port:3306. Connection refused
+[ERROR] 26.10.2019 13:59.05 | Could not connect to address=(host=example.com)(port=3306)(type=master) : Socket fail to connect to host:example.com, port:3306. Connection refused
+[ERROR] 26.10.2019 14:01.01 | Could not connect to address=(host=example.com)(port=3306)(type=master) : Socket fail to connect to host:example.com, port:3306. Connection refused
+[ERROR] 26.10.2019 14:01.01 | Could not connect to address=(host=example.com)(port=3306)(type=master) : Socket fail to connect to host:example.com, port:3306. Connection refused
+[ERROR] 29.10.2019 14:43.43 | Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+[ERROR] 29.10.2019 14:46.23 | Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+[ERROR] 04.11.2019 10:00.43 | Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+[ERROR] 04.11.2019 10:03.22 | Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+[ERROR] 04.11.2019 10:07.22 | Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+[INFO] 04.11.2019 10:18.29 | test1 - /home/dima/FtpLike/rootdir/test1/
+[INFO] 04.11.2019 16:03.55 | test1 - /rootdir/test1/
+[INFO] 04.11.2019 16:05.33 | test1 - /home/dima/FtpLike/rootdir/test1/

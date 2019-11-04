@@ -15,9 +15,9 @@ public class PropertiesService {
     private String homedir;
     private String baseUrl;
 
-    private PropertiesService(){
+    private PropertiesService() {
         Properties prop = new Properties();
-        try(FileInputStream fis = new FileInputStream(new File(path).getAbsolutePath())){
+        try (FileInputStream fis = new FileInputStream(new File(path).getAbsolutePath())) {
             prop.load(fis);
 
             baseName = prop.getProperty("basename");
@@ -26,16 +26,16 @@ public class PropertiesService {
             passBase = prop.getProperty("passbase");
             homedir = prop.getProperty("homedir");
             baseUrl = prop.getProperty("url");
+        } catch (Exception ex) {
         }
-        catch(Exception ex){}
     }
 
-    public static PropertiesService getInstance(){
+    public static PropertiesService getInstance() {
         PropertiesService localInstance = instance;
-        if(localInstance == null){
-            synchronized (PropertiesService.class){
+        if (localInstance == null) {
+            synchronized (PropertiesService.class) {
                 localInstance = instance;
-                if(localInstance == null){
+                if (localInstance == null) {
                     localInstance = instance = new PropertiesService();
                 }
             }
@@ -43,21 +43,27 @@ public class PropertiesService {
         return localInstance;
     }
 
-
-    public String getBaseName(){
+    public String getBaseName() {
         return baseName;
     }
-    public String getTableName(){
+
+    public String getTableName() {
         return tableName;
     }
-    public String getUserBase(){
+
+    public String getUserBase() {
         return userBase;
     }
+
     public String getPassBase() {
         return passBase;
     }
+
     public String getHomedir() {
         return homedir;
     }
-    public String getBaseUrl() { return  baseUrl; }
+
+    public String getBaseUrl() {
+        return baseUrl;
+    }
 }

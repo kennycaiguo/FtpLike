@@ -1,0 +1,3 @@
+function errResponnce(argument) {
+	// body...
+}

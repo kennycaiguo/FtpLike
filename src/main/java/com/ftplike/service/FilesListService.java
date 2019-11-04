@@ -7,6 +7,24 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class FilesListService {
+    private static FilesListService instance;
+
+    private FilesListService(){
+    }
+
+    public static FilesListService getInstance(){
+        FilesListService localInstance = instance;
+        if (localInstance == null) {
+            synchronized (FilesListService.class) {
+                localInstance = instance;
+                if (localInstance == null) {
+                    localInstance = instance = new FilesListService();
+                }
+            }
+        }
+        return localInstance;
+    }
+
     public FilesList readPath(String path) {
         try {
             ArrayList Directories = new ArrayList<File>();
@@ -31,4 +49,5 @@ public class FilesListService {
             return null;
         }
     }
+
 }

@@ -34,7 +34,7 @@
                 out.println("</div>");
             %>
 
-            <form class="exit" method="post" action="/" name="exit">
+            <form class="exit" method="post" action='<%=request.getContextPath() + "/"%>' name="exit">
                 <button class="exit-btn btn">Exit</button>
             </form>
         </header>

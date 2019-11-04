@@ -74,8 +74,8 @@ public class MySqlBase implements DBase {
     }
 
     @Override
-    public void insertUser(String login, String email, String password, String homedir) {
-        String sql = "INSERT INTO " + tablename + " VALUES(?, ?, ?, ?);";
+    public void insertUser(String login, String email, String password) {
+        String sql = "INSERT INTO " + tablename + " VALUES(?, ?, ?);";
 
         try (Connection conn = DriverManager.getConnection(url + basename, userbase, passbase);
              PreparedStatement pStatement = conn.prepareStatement(sql);
@@ -83,7 +83,6 @@ public class MySqlBase implements DBase {
             pStatement.setString(1, login);
             pStatement.setString(2, email);
             pStatement.setString(3, password);
-            pStatement.setString(4, homedir);
 
             pStatement.executeUpdate();
         } catch (Exception ex) {
@@ -106,9 +105,8 @@ public class MySqlBase implements DBase {
                 String username = rs.getString(1);
                 String email = rs.getString(2);
                 String password = rs.getString(3);
-                String homedir = rs.getString(4);
 
-                return new User(username, email, password, homedir);
+                return new User(username, email, password);
             }
         } catch (Exception ex) {
             LoggerService.log(LoggerService.LogLevels.ERROR, ex.getMessage());

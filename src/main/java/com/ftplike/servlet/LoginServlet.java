@@ -12,12 +12,11 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class LoginServlet extends HttpServlet {
-    private String userCookieName = "loginedUser";
+    private String userCookieName = "users";
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession ses = request.getSession();
-
         User user = (User) ses.getAttribute(userCookieName);
 
         if (user == null) {
@@ -35,8 +34,7 @@ public class LoginServlet extends HttpServlet {
         try {
             request.getSession().setAttribute("isLgnForm", true);
 
-            LoginService loginService = new LoginService();
-            User user = loginService.Login(login, pass);
+            User user = LoginService.getInstance().login(login, pass);
 
             request.getSession().setAttribute(userCookieName, user);
             response.sendRedirect(request.getContextPath() + "/");
