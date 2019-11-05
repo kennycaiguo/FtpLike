@@ -5,7 +5,7 @@
 <hibernate-configuration>
     <session-factory>
         <property name="hibernate.dialect">
-            org.hibernate.dialect.MySQL8Dialect
+            org.hibernate.dialect.MariaDB10Dialect
         </property>
         <property name="hibernate.connection.driver_class">
             com.mysql.jdbc.Driver
@@ -20,6 +20,5 @@
             rootroot
         </property>
         <mapping resource="User.hbm.xml"/>
-
     </session-factory>
 </hibernate-configuration>

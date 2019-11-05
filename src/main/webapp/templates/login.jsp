@@ -20,35 +20,23 @@
 	</head>
 	<body>
 		<div class="wrapper">
-			<form class="logform" action='<%=request.getContextPath() + "/login" %>' method="post" name="login" style='<%= (isLgnForm ? "" : "display: none;") %>'>
+			<div class="logform" style='<%= (isLgnForm ? "" : "display: none;") %>'>
 				<p> Login </p>
 				<div class="inputs">
 					<input class="login" type="text" name="login" placeholder="login or email" maxlength="15" required />
 					<input class="password" type="password" name="password" placeholder="password" maxlength="50" required />
 				</div>
-				<input class="btn" type="submit" value="Login"/>
-			</form>
-<!-- 
-		    <form class="regform" action='<%=request.getContextPath() + "/register" %>' method="post" name="register" style='<%= (isLgnForm ? "display: none;" : "") %>'>
-		        <p>Register</p>
-		        <div class="inputs">
-			        <input class="login" type="text" name="login" placeholder="login" maxlength="15" required />
-			        <input class="mail" type="text" name="email" placeholder="email" maxlength="50" required pattern="^\S+@\S+\.\S+$" />
-			        <input class="password" type="password" name="password" placeholder="password" maxlength="50" required />
-		    	</div>	
-		        <input class="btn" type="submit" value="Register"/>
-		    </form> -->
-		    
+				<div class="btn submit-btn" style="width: 20px; height: 20px; background: #000" onclick="sendSubmit('<%=request.getContextPath()%>', 'login')"></div>
+			</div>
 		    <div class="regform" style='<%= (isLgnForm ? "display: none;" : "") %>'>
 		    	<p>Register</p>
 		    	<div class="inputs">
-		    		<input class="login" name="login" type="text" placeholder="login" maxlength="15" value="dim" required />
+		    		<input class="login" name="login" type="text" placeholder="login" maxlength="15" required />
 		    		<input class="mail" name="mail" type="text" placeholder="email" maxlength="50" required pattern="^\S+@\S+\.\S+$"/>
 		    		<input class="password" name="password" type="password" placeholder="password" maxlength="50" required />
 		    	</div>
 		    	<div class="btn submit-btn" style="width: 20px; height: 20px; background: #000" onclick="sendSubmit('<%=request.getContextPath()%>', 'register')"></div>
 		    </div>
-
 		    <div class="authForm">
 		    	<span>Login</span>
 		    	<div class='inp-login <%= (isLgnForm ? " checked" : "") %>' onclick='showLog(this)'></div>

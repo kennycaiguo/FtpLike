@@ -26,11 +26,10 @@ public class RegisterServlet extends HttpServlet {
             User user = RegisterService.getInstance().register(login, email, pass);
 
             request.getSession().setAttribute(userCookieName, user);
-            response.sendRedirect(request.getContextPath() + "/");
+            response.getWriter().write("ok");
+            //            response.sendRedirect(request.getContextPath() + "/");
         } catch (IncorrectFormInputException e) {
             response.getWriter().write("error");
-//            request.getSession().setAttribute("err", true);
-//            response.sendRedirect(request.getContextPath() + "/login");
         }
     }
 }

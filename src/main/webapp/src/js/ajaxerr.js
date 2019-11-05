@@ -8,8 +8,7 @@ function sendSubmit(contextPath, type) {
 	else{
 		body = getBody(document.querySelector(".logform").childNodes[3]);
 	}
-
-
+	
 	let xhreq = new XMLHttpRequest();
 	let path = contextPath + "/" + type;
 
@@ -17,9 +16,14 @@ function sendSubmit(contextPath, type) {
 
 	xhreq.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 	xhreq.send(body);
-	alert(xhreq.responseText);
-	if(xhreq.responseText == "error"){
-		diverr.style.visibility = "visible";
+
+	xhreq.onload = function(){
+		if(xhreq.responseText == "error"){
+			diverr.style.visibility = "visible";
+		}
+		else{
+			document.location.pathname = contextPath + "/";
+		}
 	}
 }
 	

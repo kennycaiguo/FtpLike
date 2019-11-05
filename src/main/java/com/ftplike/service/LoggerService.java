@@ -5,11 +5,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class LoggerService {
-    private static final String path = "log/runtime.log";
     public enum LogLevels{
         INFO,
         ERROR
     }
+
+    private static final String path = System.getenv("FTPLIKE_BASE") == null
+            ? "log/runtime.log"
+            : System.getenv("FTPLIKE_BASE") + "/log/runtime.log";
 
     private static void logWrite(String msg){
         try(FileWriter fw = new FileWriter(path, true)){

@@ -2,7 +2,6 @@ package com.ftplike.service;
 
 import com.ftplike.db.DBase;
 import com.ftplike.db.HibernateUnit;
-import com.ftplike.db.MySqlBase;
 import com.ftplike.error.IncorrectFormInputException;
 import com.ftplike.model.User;
 import java.io.File;
@@ -10,8 +9,7 @@ import java.io.File;
 public class RegisterService {
     private static RegisterService instance;
 
-    private RegisterService(){
-    }
+    private RegisterService(){}
 
     public static RegisterService getInstance(){
         RegisterService localInstance = instance;
@@ -27,16 +25,11 @@ public class RegisterService {
     }
 
     public User register(String login, String email, String pass) throws IncorrectFormInputException {
-        PropertiesService props = PropertiesService.getInstance();
+        String home = "";
+        if(System.getenv("FTPLIKE_HOME") == null){
+            home = "rootdir";
+        }
 
-        String basename = props.getBaseName();
-        String userbase = props.getUserBase();
-        String passbase = props.getPassBase();
-        String tablename = props.getTableName();
-        String home = props.getHomedir();
-        String url = props.getBaseUrl();
-
-//        DBase base = new MySqlBase(userbase, passbase, basename, url, tablename);
         DBase base = new HibernateUnit();
         if (!base.containsLogin(login)) {
             if (!base.containsMail(email)) {

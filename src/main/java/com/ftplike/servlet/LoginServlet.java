@@ -33,14 +33,13 @@ public class LoginServlet extends HttpServlet {
 
         try {
             request.getSession().setAttribute("isLgnForm", true);
-
             User user = LoginService.getInstance().login(login, pass);
 
             request.getSession().setAttribute(userCookieName, user);
-            response.sendRedirect(request.getContextPath() + "/");
+            response.getWriter().write("ok");
+//            response.sendRedirect(request.getContextPath() + "/");
         } catch (IncorrectFormInputException e) {
-            request.getSession().setAttribute("err", true);
-            response.sendRedirect(request.getContextPath() + "/login");
+            response.getWriter().write("error");
         }
     }
 }
