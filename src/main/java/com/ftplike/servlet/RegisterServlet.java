@@ -27,7 +27,6 @@ public class RegisterServlet extends HttpServlet {
 
             request.getSession().setAttribute(userCookieName, user);
             response.getWriter().write("ok");
-            //            response.sendRedirect(request.getContextPath() + "/");
         } catch (IncorrectFormInputException e) {
             response.getWriter().write("error");
         }

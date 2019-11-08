@@ -14,39 +14,56 @@ p{
 	text-align: center;
 	padding-top: 5px;
 }
-form{
-	margin:auto;
-	height: 450px;
-}
 
 .login, .mail, .password{
 	width: 240px;
-	margin-left: 80px;
 	margin-bottom: 10px;
 }
-.btn{
-	width: 200px;
-	margin-left: 100px;
-}
-.authForm{
-	width: 200px;
-	padding-left: 100px;
+
+.logform, .regform{
+	width: 258px;
+	padding-left: 80px;
+	height: 450px;
 	text-align: center;
 }
+
+.authform{
+	text-align: center;
+}
+
 .inputs{
 	height: 130px;
+	margin-bottom: 20px;
 }
 
 input{
 	text-align: center;
 }
+
+.submit-btn{
+	width: 100px;
+	border-width: 2px;
+	border-style: solid;
+	border-color: #055d8f;
+	border-radius: 5px;
+	background: #055d8f;
+	margin-left: 70px;
+	color: #fff;
+	transition: .3s;
+}
+.submit-btn:hover{
+	background: #fff;
+	color: #055d8f;
+	transition: .3s;
+}
+
 .error{
 	font-size: 15px;
 	display: block;
 	text-align: center;
 	color: red;
 }
-.authForm div{
+.authform div{
 	width: 13px;
 	height: 13px;
 	background: #63c1f5;
@@ -56,11 +73,11 @@ input{
 	transition: .3s;
 }
 
-.authForm .checked{
+.authform .checked{
 	background: #055d8f;
 }
 
-.authForm div:hover{
+.authform div:hover{
 	transition: .3s;
 	background: #048fdb;
 }

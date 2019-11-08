@@ -1,6 +1,7 @@
 package com.ftplike.db;
 
 import com.ftplike.model.User;
+import com.ftplike.service.LoggerService;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -9,65 +10,61 @@ import org.hibernate.query.Query;
 
 import java.util.List;
 
-public class HibernateUnit  implements DBase{
+public class HibernateUnit implements DBase {
     private static SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
 
     @Override
     public Boolean containsLogin(String login) {
-        Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
+        try (Session session = sessionFactory.openSession()) {
+            Query query = session.createQuery("from User where login = :login");
+            query.setParameter("login", login);
+            List res = query.list();
 
-        Query query = session.createQuery("from User where login = :login");
-        query.setParameter("login", login);
-
-        List res = query.list();
-        transaction.commit();
-        session.close();
-
-        return res.size() != 0;
+            return res.size() != 0;
+        } catch (Exception ex) {
+            LoggerService.log(LoggerService.LogLevels.ERROR, ex.getMessage());
+        }
+        return null;
     }
 
     @Override
     public Boolean containsMail(String email) {
-        Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
+        try (Session session = sessionFactory.openSession()) {
+            Query query = session.createQuery("from User where email = :email");
+            query.setParameter("email", email);
+            List res = query.list();
 
-        Query query = session.createQuery("from User where email = :email");
-        query.setParameter("email", email);
-
-        List res = query.list();
-        transaction.commit();
-        session.close();
-
-        return res.size() != 0;
+            return res.size() != 0;
+        } catch (Exception ex) {
+            LoggerService.log(LoggerService.LogLevels.ERROR, ex.getMessage());
+        }
+        return null;
     }
 
     @Override
-    public void insertUser(String login, String email, String pass){
-        Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
-
-        session.save(new User(login, email, pass));
-
-        transaction.commit();
-        session.close();
+    public void insertUser(String login, String email, String pass) {
+        try (Session session = sessionFactory.openSession()) {
+            Transaction transaction = session.beginTransaction();
+            session.save(new User(login, email, pass));
+            transaction.commit();
+        } catch (Exception ex) {
+            LoggerService.log(LoggerService.LogLevels.ERROR, ex.getMessage());
+        }
     }
 
     @Override
-    public User getUser(String login){
+    public User getUser(String login) {
         String hql = "FROM User u WHERE u.login = :login OR u.email = :login";
 
-        Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
+        try (Session session = sessionFactory.openSession()) {
+            Query query = session.createQuery(hql);
+            query.setParameter("login", login);
+            User user = (User) query.getSingleResult();
 
-        Query query = session.createQuery(hql);
-        query.setParameter("login", login);
-
-        User user = (User)query.getSingleResult();
-
-        transaction.commit();
-        session.close();
-
-        return user;
+            return user;
+        } catch (Exception ex) {
+            LoggerService.log(LoggerService.LogLevels.ERROR, ex.getMessage());
+        }
+        return null;
     }
 }

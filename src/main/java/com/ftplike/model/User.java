@@ -1,10 +1,19 @@
 package com.ftplike.model;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "users")
 public class User {
-    private String login;
-    private String email;
-    private String pass;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
     private int id;
+    @Column
+    private String login;
+    @Column
+    private String email;
+    @Column
+    private String pass;
 
     public User(){}
 

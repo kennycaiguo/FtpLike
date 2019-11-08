@@ -26,7 +26,7 @@
 					<input class="login" type="text" name="login" placeholder="login or email" maxlength="15" required />
 					<input class="password" type="password" name="password" placeholder="password" maxlength="50" required />
 				</div>
-				<div class="btn submit-btn" style="width: 20px; height: 20px; background: #000" onclick="sendSubmit('<%=request.getContextPath()%>', 'login')"></div>
+				<div class="btn submit-btn" onclick="sendSubmit('<%=request.getContextPath()%>', 'login')">Sign In</div>
 			</div>
 		    <div class="regform" style='<%= (isLgnForm ? "display: none;" : "") %>'>
 		    	<p>Register</p>
@@ -35,9 +35,9 @@
 		    		<input class="mail" name="mail" type="text" placeholder="email" maxlength="50" required pattern="^\S+@\S+\.\S+$"/>
 		    		<input class="password" name="password" type="password" placeholder="password" maxlength="50" required />
 		    	</div>
-		    	<div class="btn submit-btn" style="width: 20px; height: 20px; background: #000" onclick="sendSubmit('<%=request.getContextPath()%>', 'register')"></div>
+		    	<div class="btn submit-btn" onclick="sendSubmit('<%=request.getContextPath()%>', 'register')">Sign Up</div>
 		    </div>
-		    <div class="authForm">
+		    <div class="authform">
 		    	<span>Login</span>
 		    	<div class='inp-login <%= (isLgnForm ? " checked" : "") %>' onclick='showLog(this)'></div>
 		    	<div class='inp-register <%= (isLgnForm ? "" : "checked") %>' onclick="showReg(this)"></div>
